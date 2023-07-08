@@ -18,7 +18,7 @@ export default function Navbar() {
       {
         label: user && user.photoURL && (
           <div className='w-[200px] mt-5 flex justify-center items-center'>
-            <Image src={user.photoURL} alt={user.displayName} className='rounded-full w-[70px]'/>
+            <img src={user.photoURL} alt={user.displayName} className='rounded-full w-[70px]'/>
           </div>
         ),
         key: '0',
@@ -55,7 +55,7 @@ export default function Navbar() {
               </div> */}
               {user && user.photoURL && (
                   <Dropdown menu={{items,}} trigger={['click']} placement="bottomRight">
-                      <Image src={user.photoURL} alt={user.displayName} className='rounded-full w-[50px] cursor-pointer'/>
+                      <img src={user.photoURL} alt={user.displayName} className='rounded-full w-[50px] cursor-pointer'/>
                   </Dropdown>
               )}
             </div>

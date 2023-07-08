@@ -76,7 +76,7 @@ export default function Login() {
     };
 
     fetchReferralLink();
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     if (user) {

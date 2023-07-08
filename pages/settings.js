@@ -43,10 +43,10 @@ export default function Settings() {
       }
     };
 
-    if (user) {
+    if (router) {
       fetchReferralLink();
     }
-  }, [router]);
+  }, [user]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(referralLink);
@@ -69,7 +69,7 @@ export default function Settings() {
       <div className="flex flex-col justify-center items-center">
         {user && user.photoURL && (
           <div className="w-full h-[200px] flex flex-col md:flex-row justify-center items-center gap-5 mt-16 md:mt-5">
-            <Image src={user.photoURL} alt={user.displayName} className="rounded-full w-[100px] h-fit" />
+            <img src={user.photoURL} alt={user.displayName} className="rounded-full w-[100px] h-fit" />
             <div className="flex flex-col gap-2">
               <h1 className="font-medium text-4xl">{user.displayName}</h1>
               <p className='text-gray-500'>{user.email}</p>
