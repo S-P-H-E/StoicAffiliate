@@ -43,7 +43,7 @@ export default function Settings() {
       }
     };
 
-    if (user) {
+    if (router) {
       fetchReferralLink();
     }
   }, [user]);
