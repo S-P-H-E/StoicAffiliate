@@ -43,10 +43,10 @@ export default function Settings() {
       }
     };
 
-    if (router) {
+    if (user) {
       fetchReferralLink();
     }
-  }, [user]);
+  }, [router]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(referralLink);
