@@ -1,28 +1,41 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { auth } from '@/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useEffect } from 'react';
-import Stats from '@/components/Stats';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
+import Course from '@/components/Course';
+import { db } from '@/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function Home() {
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
   const { ref } = router.query;
+  const [courses, setCourses] = useState([]);
+  const [coursesLoaded, setCoursesLoaded] = useState(false);
 
   useEffect(() => {
     if (!user) {
       router.push('/login');
     }
-  }, [user])
+  }, [user]);
 
-  const sales = 1000;
-  const profit = 4 * sales;
-  const views = 1000
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const coursesRef = collection(db, 'courses');
+        const snapshot = await getDocs(coursesRef);
+        const coursesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setCourses(coursesData);
+        setCoursesLoaded(true);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
 
-  const conversion = sales/views * 100;
+    fetchCourses();
+  }, []);
 
   return (
     <>
@@ -33,13 +46,33 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className='h-screen'>
-        <Navbar />
-        <div className='flex flex-col justify-center items-center h-full'>
-         <h1 className='text-9xl'>Dashboard</h1>
-         <p className='text-4xl'>Coming soon...</p>
+      <div className="flex flex-col justify-start items-center">
+        <div className="w-full md:w-[1200px]">
+          <Navbar />
+          <div className="p-10 flex flex-col gap-4">
+            {loading || !coursesLoaded ? (
+              <>
+                <h1 className="text-3xl font-medium">
+                  <div className="skeleton-text1"></div>
+                </h1>
+                {[1, 2].map((_, index) => (
+                  <div key={index}>
+                    <div className="skeleton-row-course"></div>
+                    <div className="skeleton-row-course"></div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                <h1 className="text-3xl font-medium">Courses</h1>
+                {courses.map((course) => (
+                  <Course key={course.id} course={course} />
+                ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </>
-  )
+  );
 }

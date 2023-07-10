@@ -4,7 +4,7 @@
 
 body {
   -webkit-tap-highlight-color: transparent;
-  background-color: #0F1110;
+  background-color: black;
   color: white;
 }
 
@@ -12,4 +12,72 @@ body {
   position: relative;
   max-height: 450px; /* Adjust the height as per your requirement */
   overflow-y: auto;
+}
+
+/* Skeleton loading animation styles */
+.skeleton-box {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.skeleton-row {
+  height: 20px;
+  background-color: #252525;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-row-lesson {
+  height: 50px;
+  background-color: #252525;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-row-course {
+  height: 50px;
+  background-color: #252525;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-circle {
+  width: 50px;
+  height: 50px;
+  background-color: #252525;
+  border-radius: 50%;
+}
+
+.skeleton-text1 {
+  width: 120px;
+  height: 20px;
+  background-color: #252525;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-text2 {
+  width: 320px;
+  height: 20px;
+  background-color: #252525;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-heading {
+  width: 600px;
+  height: 40px;
+  background-color: #252525;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-description {
+  width: 1000px;
+  height: 20px;
+  background-color: #252525;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
