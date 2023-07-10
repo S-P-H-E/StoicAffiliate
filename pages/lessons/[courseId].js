@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { auth } from '@/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase';
@@ -9,6 +11,15 @@ import Comments from '@/components/Comments';
 
 export default function CourseLessons() {
   const router = useRouter();
+  const [user, loading] = useAuthState(auth);
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [user]);
+
+  
   const { courseId } = router.query;
   const [course, setCourse] = useState(null);
   const [lessons, setLessons] = useState([]);

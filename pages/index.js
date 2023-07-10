@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>S T O I C</title>
+        <title>S T O I C | Affiliate</title>
         <meta name="description" content="Track your affiliates for the stoic program" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -53,12 +53,12 @@ export default function Home() {
             {loading || !coursesLoaded ? (
               <>
                 <h1 className="text-3xl font-medium">
-                  <div className="skeleton-text1"></div>
+                  <div className="skeleton-text1 animate-pulse"/>
                 </h1>
                 {[1, 2].map((_, index) => (
                   <div key={index}>
-                    <div className="skeleton-row-course"></div>
-                    <div className="skeleton-row-course"></div>
+                    <div className="skeleton-row-course animate-pulse"/>
+                    <div className="skeleton-row-course animate-pulse"/>
                   </div>
                 ))}
               </>

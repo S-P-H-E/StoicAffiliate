@@ -69,12 +69,12 @@ export default function Navbar() {
         {loading || !firebaseLoaded ? (
           // Skeleton CSS loading animation
           <div className='p-10 flex justify-between items-center'>
-            <div className="skeleton-box">
+            <div className="skeleton-box animate-pulse">
               <div className="skeleton-text1"></div>
               <div className="skeleton-text2"></div>
             </div>
             <div className='flex gap-5 justify-center items-center'>
-              <div className="skeleton-box">
+              <div className="skeleton-box animate-pulse">
                 <div className="skeleton-circle"></div>
               </div>
             </div>
