@@ -3,25 +3,34 @@ import { collection, addDoc, query, orderBy, onSnapshot, doc, deleteDoc } from '
 import { db, auth } from '@/firebase';
 import { MdDelete } from 'react-icons/md'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { Dropdown, Space } from 'antd';
+import { Dropdown } from 'antd';
 
 export default function Comments({ courseId }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
-    // Fetch comments for the given courseId
-    const commentsRef = collection(db, 'comments');
-    const q = query(commentsRef, orderBy('timestamp'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const commentsData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setComments(commentsData);
-    });
+    const fetchComments = async () => {
+      try {
+        const commentsRef = collection(db, 'comments');
+        const q = query(commentsRef, orderBy('timestamp'));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          const commentsData = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setComments(commentsData);
+        });
 
-    return () => unsubscribe();
+        return () => unsubscribe();
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    if (courseId) {
+      fetchComments();
+    }
   }, [courseId]);
 
   const handleSubmitComment = async (e) => {
@@ -31,14 +40,12 @@ export default function Comments({ courseId }) {
     }
 
     try {
-      // Get the currently logged-in user
       const user = auth.currentUser;
       if (!user) {
         console.error('User not logged in');
         return;
       }
 
-      // Add new comment to the 'comments' collection
       const commentsRef = collection(db, 'comments');
       await addDoc(commentsRef, {
         courseId,
@@ -46,10 +53,9 @@ export default function Comments({ courseId }) {
         timestamp: new Date(),
         userId: user.uid,
         userName: user.displayName,
-        userProfilePic: user.photoURL, // Add user's profile picture
+        userProfilePic: user.photoURL,
       });
 
-      // Clear the input field after submitting
       setNewComment('');
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -58,7 +64,6 @@ export default function Comments({ courseId }) {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      // Delete the comment from the 'comments' collection
       const commentRef = doc(db, 'comments', commentId);
       await deleteDoc(commentRef);
     } catch (error) {
@@ -66,7 +71,6 @@ export default function Comments({ courseId }) {
     }
   };
 
-  // Function to detect and style links in the comment text
   const detectAndStyleLinks = (comment) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const matches = comment.match(urlRegex);
@@ -102,7 +106,7 @@ export default function Comments({ courseId }) {
       <h1 className="text-3xl font-medium">Comments</h1>
       <form onSubmit={handleSubmitComment} className='flex flex-col md:flex-row justify-between items-center w-full gap-2'>
         <input
-            placeholder='Type your comment here'
+          placeholder='Type your comment here'
           type="text"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
@@ -136,4 +140,33 @@ export default function Comments({ courseId }) {
       </ul>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  try {
+    const { courseId } = context.params;
+
+    const commentsRef = collection(db, 'comments');
+    const q = query(commentsRef, orderBy('timestamp'));
+    const snapshot = await getDocs(q);
+    const commentsData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return {
+      props: {
+        courseId,
+        comments: commentsData,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    return {
+      props: {
+        courseId: null,
+        comments: [],
+      },
+    };
+  }
 }

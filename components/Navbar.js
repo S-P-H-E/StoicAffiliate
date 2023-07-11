@@ -85,7 +85,7 @@ export default function Navbar() {
             <div>
               {user && user.photoURL && (
                 <>
-                  <h1 className='md:text-2xl text-[#5F5F5F]'>{greeting},</h1>
+                  <h1 className='md:text-2xl text-[#A4A4A4]'>{greeting},</h1>
                   <h2 className='text-2xl md:text-4xl font-medium text-white'>{user.displayName}</h2>
                 </>
               )}

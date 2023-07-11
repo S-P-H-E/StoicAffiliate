@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --highlight: ;
+}
+
 body {
   -webkit-tap-highlight-color: transparent;
-  background-color: black;
+  background-color: #151515;
   color: white;
 }
 

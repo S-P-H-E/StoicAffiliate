@@ -85,7 +85,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [user]);
 
@@ -99,7 +99,7 @@ export default function Login() {
   return (
     <>
       <Head>
-        <title>S T O I C</title>
+        <title>Login</title>
         <meta name="description" content="Track your affiliates for the stoic program" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

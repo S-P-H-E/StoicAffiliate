@@ -63,7 +63,7 @@ export default function Lesson({ name, message, index, link, courseId, lessonId,
             </div>
         </button>
         <Script src="//embed.typeform.com/next/embed.js" /> */}
-          <div className="bg-[#262626] px-5 py-5 rounded-2xl flex justify-start items-center gap-3 cursor-pointer" >
+          <div className="bg-[#252525] px-5 py-5 rounded-2xl flex justify-start items-center gap-3 cursor-pointer" >
             <p className="text-[#5e5e5e]">{lessonNumber}</p>
             <div className='bg-[#525152] p-2 rounded-full'>
             <HiLockClosed size={20}/>
